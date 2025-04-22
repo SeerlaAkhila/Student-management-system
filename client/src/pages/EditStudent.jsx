@@ -1,0 +1,101 @@
+import { useState, useEffect } from 'react';
+import axios from 'axios';
+import { useParams, useNavigate } from 'react-router-dom';
+
+const EditStudent = () => {
+  const { id } = useParams();
+  const navigate = useNavigate();
+
+  const [student, setStudent] = useState({
+    firstName: '',
+    lastName: '',
+    rollNumber: '',
+    branch: '',
+    email: '',
+    dob: '',
+    department: '',
+    enrollmentYear: '',
+    isActive: false
+  });
+
+  useEffect(() => {
+    axios.get(`http://localhost:5000/students/${id}`)
+      .then(response => {
+        const studentData = response.data;
+        // Convert boolean if it's stored as string in the DB
+        if (typeof studentData.isActive === 'string') {
+          studentData.isActive = studentData.isActive === 'true';
+        }
+        setStudent(studentData);
+      })
+      .catch(error => console.error('Error fetching student data:', error));
+  }, [id]);
+
+  const handleChange = (e) => {
+    const { name, value, type, checked } = e.target;
+    setStudent((prev) => ({
+      ...prev,
+      [name]: type === 'checkbox' ? checked : value
+    }));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const updatedStudent = {
+      ...student,
+      enrollmentYear: Number(student.enrollmentYear),
+    };
+
+    axios.put(`http://localhost:5000/students/${id}`, updatedStudent)
+      .then(() => navigate('/students'))
+      .catch(error => console.error('Error updating student:', error));
+  };
+
+  return (
+    <div className="p-6 max-w-md mx-auto">
+      <h2 className="text-2xl font-bold mb-4">Edit Student</h2>
+      <form onSubmit={handleSubmit}>
+        {['firstName', 'lastName', 'rollNumber', 'branch', 'email', 'department'].map((field) => (
+          <input
+            key={field}
+            type={field === 'email' ? 'email' : 'text'}
+            name={field}
+            value={student[field]}
+            onChange={handleChange}
+            placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+            className="border p-2 mb-2 w-full"
+          />
+        ))}
+        <input
+          type="date"
+          name="dob"
+          value={student.dob?.slice(0, 10) || ''}
+          onChange={handleChange}
+          className="border p-2 mb-2 w-full"
+        />
+        <input
+          type="number"
+          name="enrollmentYear"
+          value={student.enrollmentYear}
+          onChange={handleChange}
+          placeholder="Enrollment Year"
+          className="border p-2 mb-2 w-full"
+        />
+        <div className="flex items-center mb-4">
+          <input
+            type="checkbox"
+            name="isActive"
+            checked={student.isActive}
+            onChange={handleChange}
+            className="mr-2"
+          />
+          <label htmlFor="isActive">Is Active</label>
+        </div>
+        <button type="submit" className="bg-blue-600 text-white p-2 w-full">Update Student</button>
+      </form>
+    </div>
+  );
+};
+
+export default EditStudent;
