@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const StudentList = () => {
   const [students, setStudents] = useState([]);
@@ -8,7 +10,10 @@ const StudentList = () => {
   useEffect(() => {
     axios.get('http://localhost:5000/students')
       .then(response => setStudents(response.data))
-      .catch(error => console.error('Error fetching students:', error));
+      .catch(error => {
+        console.error('Error fetching students:', error);
+        toast.error('Failed to fetch students!');
+      });
   }, []);
 
   const handleDelete = (id) => {
@@ -16,8 +21,12 @@ const StudentList = () => {
       axios.delete(`http://localhost:5000/students/${id}`)
         .then(() => {
           setStudents(students.filter(student => student._id !== id));
+          toast.success('Student deleted successfully!');
         })
-        .catch(error => console.error('Error deleting student:', error));
+        .catch(error => {
+          console.error('Error deleting student:', error);
+          toast.error('Failed to delete student!');
+        });
     }
   };
 
@@ -76,6 +85,9 @@ const StudentList = () => {
           <p className="text-center text-gray-500 mt-4">No students found.</p>
         )}
       </div>
+
+      {/* Toast Container */}
+      <ToastContainer position="top-center" autoClose={2000} />
     </div>
   );
 };

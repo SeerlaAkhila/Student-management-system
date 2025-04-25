@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const AddStudent = () => {
   const [student, setStudent] = useState({
@@ -34,8 +36,14 @@ const AddStudent = () => {
     };
 
     axios.post('http://localhost:5000/students', formattedStudent)
-      .then(() => navigate('/students'))
-      .catch(error => console.error('Error adding student:', error));
+      .then(() => {
+        toast.success('Student added successfully!');
+        setTimeout(() => navigate('/students'), 2000); // delay to show toast
+      })
+      .catch(error => {
+        console.error('Error adding student:', error);
+        toast.error('Failed to add student!');
+      });
   };
 
   return (
@@ -80,6 +88,9 @@ const AddStudent = () => {
         </div>
         <button type="submit" className="bg-blue-600 text-white p-2 w-full">Add Student</button>
       </form>
+
+      {/* Toast Container */}
+      <ToastContainer position="top-center" autoClose={2000} />
     </div>
   );
 };

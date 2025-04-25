@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const EditStudent = () => {
   const { id } = useParams();
@@ -22,13 +24,15 @@ const EditStudent = () => {
     axios.get(`http://localhost:5000/students/${id}`)
       .then(response => {
         const studentData = response.data;
-        // Convert boolean if it's stored as string in the DB
         if (typeof studentData.isActive === 'string') {
           studentData.isActive = studentData.isActive === 'true';
         }
         setStudent(studentData);
       })
-      .catch(error => console.error('Error fetching student data:', error));
+      .catch(error => {
+        console.error('Error fetching student data:', error);
+        toast.error('Failed to fetch student data!');
+      });
   }, [id]);
 
   const handleChange = (e) => {
@@ -48,8 +52,14 @@ const EditStudent = () => {
     };
 
     axios.put(`http://localhost:5000/students/${id}`, updatedStudent)
-      .then(() => navigate('/students'))
-      .catch(error => console.error('Error updating student:', error));
+      .then(() => {
+        toast.success('Student updated successfully!');
+        setTimeout(() => navigate('/students'), 2000);
+      })
+      .catch(error => {
+        console.error('Error updating student:', error);
+        toast.error('Failed to update student!');
+      });
   };
 
   return (
@@ -94,6 +104,9 @@ const EditStudent = () => {
         </div>
         <button type="submit" className="bg-blue-600 text-white p-2 w-full">Update Student</button>
       </form>
+
+      {/* Toast Container */}
+      <ToastContainer position="top-center" autoClose={2000} />
     </div>
   );
 };
