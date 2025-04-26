@@ -22,7 +22,7 @@ const EditStudent = () => {
 
   useEffect(() => {
     // Updated URL to use the deployed backend
-    axios.get(`https://student-management-system-3-hvhv.onrender.com/students/${id}`)
+    axios.get(`http://localhost:5000/students/${id}`)
       .then(response => {
         const studentData = response.data;
         if (typeof studentData.isActive === 'string') {
@@ -53,7 +53,7 @@ const EditStudent = () => {
     };
 
     // Updated URL to use the deployed backend
-    axios.put(`https://student-management-system-3-hvhv.onrender.com/students/${id}`, updatedStudent)
+    axios.put(`http://localhost:5000/students/${id}`, updatedStudent)
       .then(() => {
         toast.success('Student updated successfully!');
         setTimeout(() => navigate('/students'), 2000);

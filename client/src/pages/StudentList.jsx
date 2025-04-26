@@ -9,7 +9,7 @@ const StudentList = () => {
 
   useEffect(() => {
     // Updated URL to use the deployed backend
-    axios.get('https://student-management-system-3-hvhv.onrender.com/students')
+    axios.get('http://localhost:5000/students')
       .then(response => setStudents(response.data))
       .catch(error => {
         console.error('Error fetching students:', error);
@@ -20,7 +20,7 @@ const StudentList = () => {
   const handleDelete = (id) => {
     if (window.confirm("Are you sure you want to delete this student?")) {
       // Updated URL to use the deployed backend
-      axios.delete(`https://student-management-system-3-hvhv.onrender.com/students/${id}`)
+      axios.delete(`http://localhost:5000/students/${id}`)
         .then(() => {
           setStudents(students.filter(student => student._id !== id));
           toast.success('Student deleted successfully!');

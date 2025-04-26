@@ -36,7 +36,7 @@ const AddStudent = () => {
     };
 
     // Updated URL with Render backend URL
-    axios.post('https://student-management-system-3-hvhv.onrender.com/students', formattedStudent)
+    axios.post('http://localhost:5000/students', formattedStudent)
       .then(() => {
         toast.success('Student added successfully!');
         setTimeout(() => navigate('/students'), 2000); // delay to show toast
