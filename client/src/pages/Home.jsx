@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 const Home = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-r from-blue-100 to-purple-200">
@@ -9,18 +11,18 @@ const Home = () => {
           Manage student information efficiently. You can add, view, edit, and delete student records all in one place.
         </p>
         <div className="space-x-4">
-          <a
-            href="/students"
+          <Link
+            to="/students"
             className="bg-blue-200 hover:bg-blue-300 text-blue-900 font-medium px-6 py-2 rounded transition"
           >
             View Students
-          </a>
-          <a
-            href="/add"
+          </Link>
+          <Link
+            to="/add"
             className="bg-green-200 hover:bg-green-300 text-green-900 font-medium px-6 py-2 rounded transition"
           >
             Add Student
-          </a>
+          </Link>
         </div>
       </div>
     </div>
