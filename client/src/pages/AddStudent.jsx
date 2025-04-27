@@ -36,7 +36,7 @@ const AddStudent = () => {
     };
 
     // Updated URL with Render backend URL
-    console.log('Backend URL:', process.env.REACT_APP_BACKEND_URL);
+    
 
     axios.post('https://student-management-system-gk5e.onrender.com/students', formattedStudent)
       .then(() => {
