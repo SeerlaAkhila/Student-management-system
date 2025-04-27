@@ -36,6 +36,8 @@ const AddStudent = () => {
     };
 
     // Updated URL with Render backend URL
+    console.log('Backend URL:', process.env.REACT_APP_BACKEND_URL);
+
     axios.post(`${process.env.REACT_APP_BACKEND_URL}/students`, formattedStudent)
       .then(() => {
         toast.success('Student added successfully!');
