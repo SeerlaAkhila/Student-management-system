@@ -9,7 +9,7 @@ const StudentList = () => {
 
   useEffect(() => {
     // Use deployed backend URL
-    axios.get(`${process.env.REACT_APP_BACKEND_URL}/students`)
+    axios.get('https://student-management-system-gk5e.onrender.com/students')
       .then(response => setStudents(response.data))
       .catch(error => {
         console.error('Error fetching students:', error);
@@ -20,7 +20,7 @@ const StudentList = () => {
   const handleDelete = (id) => {
     if (window.confirm("Are you sure you want to delete this student?")) {
       // Use deployed backend URL
-      axios.delete(`${process.env.REACT_APP_BACKEND_URL}/students/${id}`)
+      axios.delete(`https://student-management-system-gk5e.onrender.com/students/${id}`)
         .then(() => {
           setStudents(students.filter(student => student._id !== id));
           toast.success('Student deleted successfully!');
