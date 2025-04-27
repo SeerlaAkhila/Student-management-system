@@ -36,7 +36,7 @@ const AddStudent = () => {
     };
 
     // Updated URL with Render backend URL
-    axios.post('http://localhost:5000/students', formattedStudent)
+    axios.post(`${process.env.REACT_APP_BACKEND_URL}/students`, formattedStudent)
       .then(() => {
         toast.success('Student added successfully!');
         setTimeout(() => navigate('/students'), 2000); // delay to show toast
