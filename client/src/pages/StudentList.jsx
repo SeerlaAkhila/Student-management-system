@@ -8,8 +8,8 @@ const StudentList = () => {
   const [students, setStudents] = useState([]);
 
   useEffect(() => {
-    // Updated URL to use the deployed backend
-    axios.get('http://localhost:5000/students')
+    // Use deployed backend URL
+    axios.get(`${process.env.REACT_APP_BACKEND_URL}/students`)
       .then(response => setStudents(response.data))
       .catch(error => {
         console.error('Error fetching students:', error);
@@ -19,8 +19,8 @@ const StudentList = () => {
 
   const handleDelete = (id) => {
     if (window.confirm("Are you sure you want to delete this student?")) {
-      // Updated URL to use the deployed backend
-      axios.delete(`http://localhost:5000/students/${id}`)
+      // Use deployed backend URL
+      axios.delete(`${process.env.REACT_APP_BACKEND_URL}/students/${id}`)
         .then(() => {
           setStudents(students.filter(student => student._id !== id));
           toast.success('Student deleted successfully!');
