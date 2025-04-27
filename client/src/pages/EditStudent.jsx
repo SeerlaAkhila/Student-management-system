@@ -21,8 +21,8 @@ const EditStudent = () => {
   });
 
   useEffect(() => {
-    // Updated URL to use the deployed backend
-    axios.get(`http://localhost:5000/students/${id}`)
+    // Updated to use deployed backend URL
+    axios.get(`${process.env.REACT_APP_BACKEND_URL}/students/${id}`)
       .then(response => {
         const studentData = response.data;
         if (typeof studentData.isActive === 'string') {
@@ -52,8 +52,8 @@ const EditStudent = () => {
       enrollmentYear: Number(student.enrollmentYear),
     };
 
-    // Updated URL to use the deployed backend
-    axios.put(`http://localhost:5000/students/${id}`, updatedStudent)
+    // Updated to use deployed backend URL
+    axios.put(`${process.env.REACT_APP_BACKEND_URL}/students/${id}`, updatedStudent)
       .then(() => {
         toast.success('Student updated successfully!');
         setTimeout(() => navigate('/students'), 2000);
